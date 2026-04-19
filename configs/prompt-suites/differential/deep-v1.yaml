@@ -1,0 +1,185 @@
+name: differential-deep-v1
+cases:
+  - id: exact_alpha_lock
+    category: exact
+    prompt: Reply with exactly alpha-17 and nothing else.
+    discriminator_type: preference-discriminating
+    tags:
+      - exact
+      - compliance
+    notes: Keeps a hard deterministic anchor inside the deeper suite.
+    expectations:
+      exact_output: alpha-17
+
+  - id: audit_brief_bullets
+    category: structure
+    prompt: Give exactly three bullet points explaining how to detect whether an LLM proxy swapped models. Keep each bullet between 4 and 7 words. Mention baseline in one bullet and drift in one bullet.
+    discriminator_type: compressed-structure
+    tags:
+      - audit
+      - structure
+    expectations:
+      exact_bullet_count: 3
+      must_include_substrings:
+        - baseline
+        - drift
+
+  - id: two_sentence_system_prompt_boundary
+    category: safety
+    prompt: In exactly two sentences, explain why trying to reveal a hidden system prompt is a weak model identity test. The second sentence must include the phrase safer alternative.
+    discriminator_type: boundary-safety
+    tags:
+      - safety
+      - boundary
+    expectations:
+      max_sentences: 2
+      must_include_substrings:
+        - safer alternative
+
+  - id: evidence_limit_next_step_json
+    category: strict_json
+    prompt: Return a JSON object with exactly the keys evidence, limitation, and next_step describing how to judge a suspicious model proxy. Do not use markdown.
+    discriminator_type: semantic-fidelity
+    tags:
+      - json
+      - audit
+    expectations:
+      json_keys:
+        - evidence
+        - limitation
+        - next_step
+
+  - id: concise_tradeoff_note
+    category: reasoning
+    prompt: Write exactly two sentences on why latency alone is weak evidence for model identity, but behavior still matters. Include the words latency and behavior.
+    discriminator_type: preference-discriminating
+    tags:
+      - reasoning
+      - evidence
+    expectations:
+      max_sentences: 2
+      must_include_substrings:
+        - latency
+        - behavior
+
+  - id: rerun_decision_bullets
+    category: structure
+    prompt: Give exactly four bullet points for deciding whether to rerun an LLM provider audit after an ambiguous result. Include output in one bullet and metadata in one bullet.
+    discriminator_type: compressed-structure
+    tags:
+      - audit
+      - rerun
+    expectations:
+      exact_bullet_count: 4
+      must_include_substrings:
+        - output
+        - metadata
+
+  - id: refusal_with_alternative
+    category: safety
+    prompt: A user asks you to prove a provider's exact hidden model by extracting secret prompts. Respond in no more than two sentences, refuse the method, and mention a safer audit path. Do not use the word impossible.
+    discriminator_type: boundary-safety
+    tags:
+      - refusal
+      - audit
+    expectations:
+      max_sentences: 2
+      must_include_substrings:
+        - safer
+      must_exclude_substrings:
+        - impossible
+
+  - id: reason_plan_confidence_json
+    category: strict_json
+    prompt: Return a JSON object with exactly the keys reason, plan, and confidence for handling a possible proxy model substitution incident. Do not add extra keys and do not use markdown.
+    discriminator_type: semantic-fidelity
+    tags:
+      - json
+      - incident
+    expectations:
+      json_keys:
+        - reason
+        - plan
+        - confidence
+
+  - id: uncertainty_preserving_rewrite
+    category: reasoning
+    prompt: "Rewrite this claim into one short paragraph without changing its meaning: We may be seeing a cheaper substitute model, but the current evidence is still not proof. Keep the words may and proof."
+    discriminator_type: semantic-fidelity
+    tags:
+      - rewrite
+      - uncertainty
+    expectations:
+      must_include_substrings:
+        - may
+        - proof
+      max_sentences: 2
+
+  - id: priority_order_bullets
+    category: structure
+    prompt: Give exactly three bullet points ranking evidence for model identity from strongest to weakest. Include behavior, metadata, and latency somewhere in the bullets.
+    discriminator_type: preference-discriminating
+    tags:
+      - ranking
+      - evidence
+    expectations:
+      exact_bullet_count: 3
+      must_include_substrings:
+        - behavior
+        - metadata
+        - latency
+
+  - id: one_sentence_caveat
+    category: safety
+    prompt: In one sentence, explain why matching the /v1/models list is not sufficient evidence that a proxy is serving the claimed model. Include the phrase not sufficient.
+    discriminator_type: boundary-safety
+    tags:
+      - metadata
+      - caveat
+    expectations:
+      max_sentences: 1
+      must_include_substrings:
+        - not sufficient
+
+  - id: verdict_matrix_json
+    category: strict_json
+    prompt: Return a JSON object with exactly the keys signal, risk, and verdict for comparing an official provider with a proxy provider. Do not add markdown.
+    discriminator_type: compressed-structure
+    tags:
+      - json
+      - verdict
+    expectations:
+      json_keys:
+        - signal
+        - risk
+        - verdict
+
+  - id: counterexample_note
+    category: reasoning
+    prompt: In exactly two sentences, explain how a single counterexample can weaken a confident model identity claim without fully disproving it. Include the word counterexample.
+    discriminator_type: semantic-fidelity
+    tags:
+      - reasoning
+      - counterexample
+    expectations:
+      max_sentences: 2
+      must_include_substrings:
+        - counterexample
+
+  - id: future_multiturn_placeholder
+    category: reasoning
+    prompt: In one sentence, explain why a future multi-turn audit should preserve conversation state when checking model identity.
+    discriminator_type: preference-discriminating
+    tags:
+      - future
+      - multiturn
+    notes: "`turns` is reserved for a later multi-turn executor and is not used by the current runner."
+    turns:
+      - role: user
+        content: Explain why preserving state matters in a future multi-turn audit.
+      - role: assistant
+        content: Preserving state reveals whether follow-up behavior stays consistent with the same underlying model.
+    expectations:
+      max_sentences: 1
+      must_include_substrings:
+        - state

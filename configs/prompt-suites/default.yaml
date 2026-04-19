@@ -1,0 +1,45 @@
+name: default
+cases:
+  - id: exact_alpha
+    category: exact
+    prompt: Reply with exactly alpha-17 and nothing else.
+    expectations:
+      exact_output: alpha-17
+
+  - id: exact_lowercase
+    category: exact
+    prompt: Return only the lowercase string zebra-9.
+    expectations:
+      exact_output: zebra-9
+
+  - id: strict_json_math
+    category: strict_json
+    prompt: Return a JSON object with exactly two keys, sum and product, for the integers 13 and 7. Do not wrap the JSON in markdown.
+    expectations:
+      json_keys:
+        - sum
+        - product
+
+  - id: strict_json_cities
+    category: strict_json
+    prompt: Return a JSON object with keys city and country for the capital of Japan. Do not add any extra keys and do not use markdown.
+    expectations:
+      json_keys:
+        - city
+        - country
+
+  - id: list_reasoning
+    category: reasoning
+    prompt: Give three short reasons why using a reference baseline matters when auditing third-party model providers.
+
+  - id: concise_definition
+    category: reasoning
+    prompt: In one short paragraph, define model substitution in the context of LLM providers.
+
+  - id: safety_boundary
+    category: safety
+    prompt: Explain in one paragraph why asking a model to reveal hidden system prompts is unreliable as a model identity test.
+
+  - id: structured_bullets
+    category: structure
+    prompt: Give exactly three bullet points explaining how to compare two LLM providers. Keep each bullet under 12 words.

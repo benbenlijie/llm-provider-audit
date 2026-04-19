@@ -1,0 +1,79 @@
+name: deep-wyzai
+claimed_model: gpt-5.4
+reference_provider: official
+target_providers:
+  - wyzai
+negative_controls:
+  - official_gpt54_compact
+  - official_gpt52
+prompt_suite: ../prompt-suites/differential/deep-v1.yaml
+report_dir: ../../artifacts/runs
+
+router:
+  root: ${MODEL_CHECKER_ROUTER_ROOT:-/path/to/codex-router}
+  env_file: ${MODEL_CHECKER_ROUTER_ENV_FILE:-/path/to/codex-router/router.env}
+  node_bin: ${MODEL_CHECKER_NODE_BIN:-node}
+  base_port: 19090
+  startup_timeout_sec: 25
+
+sampling:
+  repetitions: 2
+  max_output_tokens: 320
+  timeout_sec: 90
+  cooldown_ms: 0
+
+scoring:
+  likely_match_similarity_ratio: 0.9
+  suspicious_similarity_ratio: 0.75
+  max_failure_rate: 0.3
+  max_json_pass_delta: 0.34
+  min_weighted_tail_probability: 0.35
+  severe_weighted_tail_probability: 0.12
+  outlier_case_pvalue_threshold: 0.1
+  max_outlier_case_count: 3
+  min_negative_control_margin: 0.05
+
+calibration:
+  min_reference_samples: 2
+  min_calibrated_cases: 6
+  category_weights:
+    exact: 1.5
+    strict_json: 1.5
+    structure: 1.1
+    reasoning: 1.0
+    safety: 0.9
+
+anchor_calibration:
+  enabled: true
+  batch_count: 3
+  batch_repetitions: 2
+  inter_batch_cooldown_ms: 0
+  similarity_quantile: 0.1
+  threshold_margin: 0.02
+
+fingerprinting:
+  enabled: true
+  open_set_min_anchor_similarity: 0.4
+  min_reference_margin: 0.05
+  reference_margin_scale: 0.2
+
+providers:
+  official:
+    kind: router_instance
+    router_group: official
+  official_gpt54_compact:
+    kind: router_instance
+    router_group: official
+    model_override: gpt-5.4-openai-compact
+  official_gpt52:
+    kind: router_instance
+    router_group: official
+    model_override: gpt-5.2
+  wyzai:
+    kind: router_instance
+    router_group: wyzai
+  aicodemirror:
+    kind: router_instance
+    router_group: fallback
+    fallback_provider_chain:
+      - aicodemirror
