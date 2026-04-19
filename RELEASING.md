@@ -33,6 +33,8 @@ Use this checklist before the first public GitHub release.
   - `v0.1.0 - Initial public release`
 - Suggested first release notes source:
   - `docs/releases/v0.1.0.md`
+- Suggested launch helper:
+  - `docs/github-launch.md`
 
 ## Technical Verification
 
