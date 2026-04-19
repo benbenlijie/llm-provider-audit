@@ -1,0 +1,74 @@
+name: Bug Report
+description: Report a reproducible bug or regression in the CLI, templates, or audit flow
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+
+        Before submitting:
+        - confirm you are using the latest `main` branch or latest release
+        - remove secrets, private endpoints, and local filesystem paths
+        - include a minimal reproduction when possible
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is the bug?
+      placeholder: A concise description of the unexpected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Runtime details that help reproduce the issue
+      placeholder: |
+        OS:
+        Python:
+        uv:
+        Command:
+        Config template:
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction Steps
+      description: Exact steps to reproduce the problem
+      placeholder: |
+        1. Run ...
+        2. Use config ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or Output
+      description: Paste relevant logs, stack traces, or sanitized report excerpts
+      render: shell
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Checklist
+      options:
+        - label: I removed secrets, tokens, local paths, and private endpoints from the report
+          required: true
+        - label: I checked existing issues before opening this report
+          required: true

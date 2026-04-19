@@ -1,0 +1,44 @@
+name: Feature Request
+description: Propose a new capability, analysis workflow, or template improvement
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for product gaps, workflow improvements, or new audit capabilities.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What limitation are you hitting today?
+      placeholder: Describe the current workflow gap or pain point.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: What do you want to happen?
+      placeholder: Describe the expected behavior, command, report field, or config capability.
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why This Matters
+      description: Why is this worth adding?
+      placeholder: Explain how it improves audit accuracy, operability, or extensibility.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Other approaches you evaluated
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional Context
+      description: Links, examples, pseudo-config, or screenshots

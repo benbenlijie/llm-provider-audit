@@ -25,3 +25,5 @@ uv run python -m unittest discover -s "tests" -v
 - Keep changes scoped.
 - Add or update tests when behavior changes.
 - Preserve the CLI-first workflow unless there is a clear reason to introduce a new surface area.
+- Use the GitHub issue and pull request templates where applicable.
+- Sanitize all config snippets and screenshots before submitting them publicly.
