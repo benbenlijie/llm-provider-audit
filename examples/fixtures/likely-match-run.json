@@ -1,0 +1,208 @@
+{
+  "run_id": "example-likely-match-2026-04-19T00-00-00Z",
+  "created_at": "2026-04-19T00:00:00Z",
+  "config_name": "example-openai-compatible-likely-match",
+  "claimed_model": "example-frontier-model",
+  "reference_provider": "reference_official",
+  "target_providers": [
+    "target_gateway"
+  ],
+  "prompt_suite_name": "example-provider-audit-mini-suite",
+  "reference_calibration": {
+    "calibrated_case_count": 3,
+    "uncalibrated_case_count": 0,
+    "category_baselines": {
+      "instruction_following": 0.91,
+      "structured_output": 0.94,
+      "reasoning_style": 0.88
+    }
+  },
+  "provider_snapshots": {
+    "target_gateway": {
+      "provider": "target_gateway",
+      "kind": "openai-compatible",
+      "requested_model": "example-frontier-model",
+      "base_url": "https://redacted.example/v1",
+      "health": {
+        "ok": true,
+        "redacted": true
+      },
+      "models": {
+        "data": [
+          {
+            "id": "example-frontier-model"
+          }
+        ]
+      }
+    }
+  },
+  "samples": [
+    {
+      "provider": "reference_official",
+      "case_id": "json_contract_001",
+      "attempt": 1,
+      "success": true,
+      "text": "{\"decision\":\"approve\",\"risk\":\"low\",\"reasons\":[\"all required fields present\"]}",
+      "normalized_text": "{\"decision\":\"approve\",\"risk\":\"low\",\"reasons\":[\"all required fields present\"]}",
+      "latency_ms": 842.4,
+      "error": null,
+      "raw_response": {
+        "redacted": true
+      }
+    },
+    {
+      "provider": "target_gateway",
+      "case_id": "json_contract_001",
+      "attempt": 1,
+      "success": true,
+      "text": "{\"decision\":\"approve\",\"risk\":\"low\",\"reasons\":[\"all required fields present\"]}",
+      "normalized_text": "{\"decision\":\"approve\",\"risk\":\"low\",\"reasons\":[\"all required fields present\"]}",
+      "latency_ms": 913.7,
+      "error": null,
+      "raw_response": {
+        "redacted": true
+      }
+    }
+  ],
+  "analyses": [
+    {
+      "provider": "target_gateway",
+      "role": "target",
+      "metadata": {
+        "target_requested_model": "example-frontier-model",
+        "target_requested_model_listed": true,
+        "target_health_ok": true
+      },
+      "aggregate": {
+        "weighted_relative_similarity": 0.973,
+        "cross_similarity_ratio": 0.966,
+        "weighted_tail_probability": 0.721,
+        "outlier_case_count": 0,
+        "calibrated_case_count": 3,
+        "mean_failure_rate": 0.0,
+        "mean_json_pass_delta": 0.0,
+        "mean_expectation_pass_delta": 0.0
+      },
+      "verdict": {
+        "label": "likely_match",
+        "reasons": [
+          "target similarity is within calibrated reference variance",
+          "negative-control margin is positive",
+          "fingerprint nearest anchor is the reference provider"
+        ]
+      },
+      "negative_control_comparison": {
+        "available": true,
+        "best_negative_provider": "example_lower_tier_control",
+        "relative_margin_vs_best_negative": 0.214
+      },
+      "fingerprint": {
+        "available": true,
+        "label": "reference_like",
+        "nearest_anchor_provider": "reference_official",
+        "nearest_anchor_similarity": 0.961,
+        "open_set_suspicious": false,
+        "open_set_similarity_threshold_used": 0.82,
+        "open_set_threshold_source": "example-anchor-calibration",
+        "reference_similarity": 0.961,
+        "best_alternative_provider": "example_lower_tier_control",
+        "best_alternative_similarity": 0.747,
+        "reference_margin_vs_best_alternative": 0.214,
+        "reasons": [
+          "nearest anchor matches reference"
+        ]
+      },
+      "cases": [
+        {
+          "case_id": "json_contract_001",
+          "category": "structured_output",
+          "reference_outputs": [
+            "{\"decision\":\"approve\",\"risk\":\"low\",\"reasons\":[\"all required fields present\"]}"
+          ],
+          "target_outputs": [
+            "{\"decision\":\"approve\",\"risk\":\"low\",\"reasons\":[\"all required fields present\"]}"
+          ],
+          "reference_sample_count": 3,
+          "target_sample_count": 3,
+          "reference_self_similarity": 0.94,
+          "reference_baseline_similarity": 0.94,
+          "cross_similarity": 0.93,
+          "relative_similarity": 0.989,
+          "empirical_tail_probability": 0.82,
+          "exact_match_rate": 0.667,
+          "reference_json_pass_rate": 1.0,
+          "target_json_pass_rate": 1.0,
+          "failure_rate": 0.0,
+          "calibrated": true,
+          "reference_expectation_pass_rate": 1.0,
+          "target_expectation_pass_rate": 1.0,
+          "discriminator_type": "json_contract",
+          "tags": [
+            "format",
+            "schema"
+          ],
+          "notes": "Synthetic fixture; no real provider output."
+        },
+        {
+          "case_id": "instruction_edge_001",
+          "category": "instruction_following",
+          "reference_outputs": [
+            "The answer uses exactly two bullet points and avoids the forbidden token."
+          ],
+          "target_outputs": [
+            "The answer uses exactly two bullet points and avoids the forbidden token."
+          ],
+          "reference_sample_count": 3,
+          "target_sample_count": 3,
+          "reference_self_similarity": 0.91,
+          "reference_baseline_similarity": 0.91,
+          "cross_similarity": 0.89,
+          "relative_similarity": 0.978,
+          "empirical_tail_probability": 0.68,
+          "exact_match_rate": 0.333,
+          "reference_json_pass_rate": null,
+          "target_json_pass_rate": null,
+          "failure_rate": 0.0,
+          "calibrated": true,
+          "reference_expectation_pass_rate": 1.0,
+          "target_expectation_pass_rate": 1.0,
+          "discriminator_type": "instruction_constraint",
+          "tags": [
+            "constraints"
+          ],
+          "notes": "Synthetic fixture; no real prompt included."
+        },
+        {
+          "case_id": "style_reasoning_001",
+          "category": "reasoning_style",
+          "reference_outputs": [
+            "Concise analysis with caveats, then a bounded recommendation."
+          ],
+          "target_outputs": [
+            "Concise analysis with caveats, then a bounded recommendation."
+          ],
+          "reference_sample_count": 3,
+          "target_sample_count": 3,
+          "reference_self_similarity": 0.88,
+          "reference_baseline_similarity": 0.88,
+          "cross_similarity": 0.84,
+          "relative_similarity": 0.955,
+          "empirical_tail_probability": 0.63,
+          "exact_match_rate": 0.0,
+          "reference_json_pass_rate": null,
+          "target_json_pass_rate": null,
+          "failure_rate": 0.0,
+          "calibrated": true,
+          "reference_expectation_pass_rate": 1.0,
+          "target_expectation_pass_rate": 1.0,
+          "discriminator_type": "style_fingerprint",
+          "tags": [
+            "style",
+            "reasoning"
+          ],
+          "notes": "Synthetic fixture; no real prompt included."
+        }
+      ]
+    }
+  ]
+}

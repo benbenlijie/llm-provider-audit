@@ -135,7 +135,8 @@ Current roadmap items are tracked as public GitHub issues so contributors can pi
 
 - Provider fingerprinting suite for stronger mismatch detection
 - CI-friendly drift checks for scheduled provider audits
-- Sanitized example reports and public audit fixtures
+- Sanitized example reports and public audit fixtures are available under [`examples/`](examples/).
+- Codex-friendly open-source maintenance tasks are documented in [`docs/codex-open-source-plan.md`](docs/codex-open-source-plan.md).
 - Security hardening around API keys, logs, configs, and generated artifacts
 - Contributor-friendly audit templates for common OpenAI-compatible providers
 - Lightweight history storage and trend visualization
