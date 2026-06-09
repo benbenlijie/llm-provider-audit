@@ -5,9 +5,22 @@
 
 `llm-provider-audit` 是一个面向 LLM provider 审计的 CLI 框架，用来判断某个 provider 声称提供的模型，是否真的接近你的参考模型，还是存在偷偷换模、降级、fallback 污染或路由异常。
 
+It is a CLI-first framework for auditing OpenAI-compatible LLM providers and detecting model substitution, degraded routing, fallback contamination, and behavior drift.
+
 它不是一个通用 benchmark。它主要回答这个问题：
 
 > 这个 provider 实际返回的模型行为，还是不是它声称的那个模型？
+
+## Why this matters
+
+OpenAI-compatible endpoints make it easy for developers to switch providers, but they also make provider behavior harder to verify. A provider may silently route traffic to a cheaper model, fall back to a different model under load, change routing policies over time, or expose inconsistent behavior across regions and accounts.
+
+This project aims to give developers and maintainers a reproducible way to collect evidence before trusting a provider in production:
+
+- compare a target provider against a reference provider and negative controls
+- estimate normal reference variance before flagging mismatches
+- keep sanitized JSON/Markdown audit reports for regressions and reviews
+- support periodic checks for behavior drift in OpenAI-compatible routing
 
 ## 适用场景
 
@@ -15,6 +28,7 @@
 - 对比多个 provider 是否真实接近同一官方模型
 - 跟踪某个 provider 是否随时间发生行为漂移
 - 为周期性巡检、告警或后续 Web 平台提供结构化证据
+- 在接入新 provider 前做安全与可靠性 preflight
 
 ## 核心方法
 
@@ -115,15 +129,41 @@ Markdown 报告会同时包含：
 - 目标 provider 相对最佳负样本的边距
 - `fingerprint` 使用的 `open_set` 阈值及其来源
 
+## Roadmap
+
+Current roadmap items are tracked as public GitHub issues so contributors can pick up scoped work:
+
+- Provider fingerprinting suite for stronger mismatch detection
+- CI-friendly drift checks for scheduled provider audits
+- Sanitized example reports and public audit fixtures
+- Security hardening around API keys, logs, configs, and generated artifacts
+- Contributor-friendly audit templates for common OpenAI-compatible providers
+- Lightweight history storage and trend visualization
+
+## How Codex can help this project
+
+This project has several maintenance areas where agentic coding support is useful:
+
+- expanding unit and regression tests for statistical verdict logic
+- reviewing security-sensitive paths that touch API keys, headers, logs, and generated reports
+- generating sanitized provider templates without leaking real endpoints or credentials
+- improving CLI ergonomics and documentation examples
+- building reproducible fixtures for provider behavior drift and model-substitution detection
+- maintaining report generation across JSON, Markdown, and future Web views
+
+## Contributing
+
+Contributions are welcome. Good first areas include:
+
+- adding sanitized prompt cases to `configs/prompt-suites/`
+- improving public provider templates under `configs/audits/`
+- adding tests around verdict thresholds and report fields
+- improving docs for local setup and safe configuration hygiene
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and pull request expectations.
+
 ## 开源注意事项
 
 - 不要把 `configs/local/`、`.env`、`artifacts/runs/`、`artifacts/anchor-calibrations/` 提交到公开仓库
 - 如果你新增了 provider，优先先写公共模板，再在本地复制一份做真实接入
 - 如果 provider 需要额外 headers 或鉴权方式，优先在模板里保持占位符，不要提交真实值
-
-## 未来路线
-
-- SQLite 历史记录
-- Web 报告页
-- 定时巡检与告警
-- 更强的统计检验和模型指纹能力
